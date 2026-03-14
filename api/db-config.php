@@ -2,12 +2,18 @@
 // Database configuration
 declare(strict_types=1);
 
-// MySQL database credentials
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'cyber_spin_wheel');
-define('DB_PORT', 3306);
+function envOrDefault(string $key, string $default): string
+{
+    $value = getenv($key);
+    return ($value === false || $value === '') ? $default : $value;
+}
+
+// MySQL database credentials (Render: set these in Environment Variables)
+define('DB_HOST', envOrDefault('DB_HOST', '127.0.0.1'));
+define('DB_USER', envOrDefault('DB_USER', 'root'));
+define('DB_PASSWORD', envOrDefault('DB_PASSWORD', ''));
+define('DB_NAME', envOrDefault('DB_NAME', 'cyber_spin_wheel'));
+define('DB_PORT', (int) envOrDefault('DB_PORT', '3306'));
 
 // Create connection
 function getDBConnection()
