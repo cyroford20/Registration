@@ -40,7 +40,7 @@ $urlCfg = $dbUrl !== '' ? parseMysqlUrl($dbUrl) : [];
 define('DB_HOST', envFirst(['DB_HOST', 'MYSQL_HOST', 'MYSQLHOST', 'DB_SERVER', 'SQL_HOST'], $urlCfg['host'] ?? '127.0.0.1'));
 define('DB_USER', envFirst(['DB_USER', 'MYSQL_USER', 'MYSQLUSER', 'DB_USERNAME', 'SQL_USER'], $urlCfg['user'] ?? 'root'));
 define('DB_PASSWORD', envFirst(['DB_PASSWORD', 'MYSQL_PASSWORD', 'MYSQLPASSWORD', 'MYSQL_PASS', 'DB_PASS', 'SQL_PASSWORD'], $urlCfg['pass'] ?? ''));
-define('DB_NAME', envFirst(['DB_NAME', 'MYSQL_DATABASE', 'MYSQLDATABASE', 'DB_DATABASE', 'SQL_DATABASE'], $urlCfg['name'] ?? 'cyber_spin_wheel'));
+define('DB_NAME', envFirst(['DB_NAME', 'MYSQL_DATABASE', 'MYSQLDATABASE', 'DB_DATABASE', 'SQL_DATABASE'], $urlCfg['name'] ?? 'sql12819977'));
 define('DB_PORT', (int)envFirst(['DB_PORT', 'MYSQL_PORT', 'MYSQLPORT', 'SQL_PORT'], $urlCfg['port'] ?? '3306'));
 
 // Create connection

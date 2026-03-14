@@ -3,10 +3,10 @@
 
 -- Create Database
 CREATE DATABASE
-IF NOT EXISTS `cyber_spin_wheel` CHARACTER
+IF NOT EXISTS `sql12819977` CHARACTER
 SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
-USE `cyber_spin_wheel`;
+USE `sql12819977`;
 
 -- Create Users Table
 CREATE TABLE
@@ -18,7 +18,7 @@ IF NOT EXISTS `users`
   `fullname` VARCHAR
 (255) NOT NULL,
   `email` VARCHAR
-(255) UNIQUE NOT NULL,
+(191) UNIQUE NOT NULL,
   `gender` VARCHAR
 (50) NOT NULL,
   `college` VARCHAR
@@ -28,12 +28,13 @@ IF NOT EXISTS `users`
   `role` VARCHAR
 (100) NOT NULL,
   `registered_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON
-UPDATE CURRENT_TIMESTAMP,
-  INDEX idx_email (email),
-  INDEX idx_user_id (user_id),
-  INDEX idx_campus (campus),
-  INDEX idx_role (role)
+  `updated_at` DATETIME DEFAULT NULL,
+  INDEX idx_user_id
+(user_id),
+  INDEX idx_campus
+(campus),
+  INDEX idx_role
+(role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Create Spin History Table (optional - for tracking prize winners)
@@ -103,19 +104,19 @@ IF NOT EXISTS `genders`
 INSERT INTO `campuses` (`
 name`)
 VALUES
-    ('MCC'),
-    ('MMC'),
-    ('MBC');
+  ('MCC'),
+  ('MMC'),
+  ('MBC');
 INSERT INTO `roles` (`
 name`)
 VALUES
-    ('Student'),
-    ('Faculty'),
-    ('Non-Teaching'),
-    ('Others');
+  ('Student'),
+  ('Faculty'),
+  ('Non-Teaching'),
+  ('Others');
 INSERT INTO `genders` (`
 name`)
 VALUES
-    ('Male'),
-    ('Female'),
-    ('Others');
+  ('Male'),
+  ('Female'),
+  ('Others');
