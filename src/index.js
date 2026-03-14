@@ -24,9 +24,26 @@ async function loadRegisteredUsers() {
   }
 }
 
-// Check if email is registered
-function isEmailRegistered(email) {
-  return registeredUsers.some((u) => u.email.toLowerCase() === email.toLowerCase());
+async function registerPlayer(player) {
+  const res = await fetch("api/users.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(player),
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  // If the player already exists, allow continuing as a returning player.
+  if (!res.ok) {
+    const msg = (data && data.error ? String(data.error) : "").toLowerCase();
+    if (msg.includes("already exists")) {
+      return { ok: true, alreadyExists: true };
+    }
+    return { ok: false, message: data.error || "Registration failed" };
+  }
+
+  registeredUsers = data.users || registeredUsers;
+  return { ok: true, alreadyExists: false };
 }
 
 // Handle player registration/login
@@ -52,25 +69,36 @@ async function handlePlayerStart() {
     return;
   }
 
-  // Check if email is in registered users list
-  if (!isEmailRegistered(email)) {
-    playerRegStatus.textContent = "Email not registered. Contact admin to register.";
+  startBtn.disabled = true;
+  startBtn.textContent = "REGISTERING...";
+
+  const player = { fullname, email, college, gender, campus, role };
+  const regResult = await registerPlayer(player);
+
+  if (!regResult.ok) {
+    playerRegStatus.textContent = regResult.message;
     playerRegStatus.dataset.kind = "error";
     playerRegStatus.style.opacity = "1";
+    startBtn.disabled = false;
+    startBtn.textContent = "START SPINNING";
     return;
   }
 
-  // Player is registered, allow them to play
-  currentPlayer = { fullname, email, college, gender, campus, role };
+  // Player is registered or already exists, allow them to play.
+  currentPlayer = player;
   sessionStorage.setItem("currentPlayer", JSON.stringify(currentPlayer));
 
-  playerRegStatus.textContent = "Welcome! " + fullname;
+  playerRegStatus.textContent = regResult.alreadyExists
+    ? "Welcome back! " + fullname
+    : "Registered! Welcome " + fullname;
   playerRegStatus.dataset.kind = "success";
   playerRegStatus.style.opacity = "1";
 
   // Hide modal after a brief delay
   setTimeout(() => {
     registrationModal.classList.add("hidden");
+    startBtn.disabled = false;
+    startBtn.textContent = "START SPINNING";
   }, 500);
 }
 

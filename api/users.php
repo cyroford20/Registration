@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $checkStmt->close();
 
         // Generate unique user ID
-        $userId = 'user_' . uniqid(true);
+        $userId = 'user_' . uniqid('', true);
 
         // Insert new user
         $insertStmt = $conn->prepare(
@@ -241,5 +241,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 }
 
 // Unsupported method
-respond(405, ['error' => 'Method not allowed']);
 respond(405, ['error' => 'Method not allowed']);

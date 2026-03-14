@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
   <title>Cyber Spin Wheel Admin - IT Exhibit</title>
@@ -26,19 +26,19 @@
         <input type="text" id="userFullname" placeholder="Full Name" class="reg-input" />
         <input type="email" id="userEmail" placeholder="Email Address" class="reg-input" />
         <input type="text" id="userCollege" placeholder="College" class="reg-input" />
-        <select id="userGender" class="reg-select">
+        <select id="userGender" class="reg-select" title="Gender" aria-label="Gender">
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Others">Others</option>
         </select>
-        <select id="userCampus" class="reg-select">
+        <select id="userCampus" class="reg-select" title="Campus" aria-label="Campus">
           <option value="">Select Campus</option>
           <option value="MCC">MCC</option>
           <option value="MMC">MMC</option>
           <option value="MBC">MBC</option>
         </select>
-        <select id="userRole" class="reg-select">
+        <select id="userRole" class="reg-select" title="Role" aria-label="Role">
           <option value="">Select Role</option>
           <option value="Student">Student</option>
           <option value="Faculty">Faculty</option>
@@ -46,8 +46,7 @@
           <option value="Others">Others</option>
         </select>
         <button id="registerBtn" class="reg-button">Register User</button>
-        <a href="/qr-register.html" class="reg-button"
-          style="background: linear-gradient(135deg, #ff006e 0%, #ff1493 100%); text-decoration: none; display: inline-block; margin-left: 10px;">📱
+        <a href="/qr-register.html" class="reg-button qr-reg-link">📱
           QR Registration</a>
       </div>
 
