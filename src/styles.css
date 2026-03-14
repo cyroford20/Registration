@@ -95,7 +95,7 @@ header {
   position: relative;
   z-index: 10;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 42px;
 }
 
 .title-container {
@@ -136,11 +136,11 @@ header {
 
 .subtitle {
   font-family: "Space Mono", monospace;
-  font-size: 0.9rem;
-  color: var(--accent);
+  font-size: 1rem;
+  color: rgba(190, 245, 255, 0.95);
   letter-spacing: 3px;
-  margin-top: 8px;
-  opacity: 0.8;
+  margin-top: 10px;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.45);
 }
 
 .admin-link {
@@ -177,7 +177,7 @@ header {
   position: relative;
   z-index: 10;
   width: min(100vw, 1400px);
-  padding: 0 20px;
+  padding: 12px 20px 0 20px;
 }
 
 .side-panel {
@@ -264,6 +264,7 @@ header {
   position: relative;
   display: inline-block;
   justify-self: center;
+  margin-top: 12px;
 }
 
 .winner-arrow {
