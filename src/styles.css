@@ -685,3 +685,202 @@ footer {
 .modal-button:active {
   transform: scale(0.98);
 }
+
+/* ── Registration Bubble Button ── */
+.reg-bubble-btn {
+  position: fixed;
+  top: 68px;
+  right: 20px;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  color: var(--success);
+  padding: 8px 16px;
+  border: 2px solid var(--success);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  z-index: 100;
+  background: rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.reg-bubble-btn:hover {
+  background: rgba(0, 255, 136, 0.22);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  transform: scale(1.05);
+}
+
+/* ── Registration Floating Panel ── */
+.reg-bubble-panel {
+  position: fixed;
+  top: 118px;
+  right: 20px;
+  width: min(430px, 92vw);
+  z-index: 200;
+  background: rgba(8, 14, 40, 0.97);
+  border: 2px solid rgba(0, 255, 136, 0.6);
+  border-radius: 14px;
+  box-shadow:
+    0 8px 32px rgba(0, 255, 136, 0.25),
+    0 0 60px rgba(0, 255, 136, 0.1),
+    0 24px 48px rgba(0, 0, 0, 0.5);
+  animation: reg-float 4s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.reg-bubble-panel.hidden {
+  display: none;
+}
+
+@keyframes reg-float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+    box-shadow:
+      0 8px 32px rgba(0, 255, 136, 0.25),
+      0 0 60px rgba(0, 255, 136, 0.1),
+      0 24px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  50% {
+    transform: translateY(-6px);
+    box-shadow:
+      0 14px 42px rgba(0, 255, 136, 0.38),
+      0 0 80px rgba(0, 255, 136, 0.18),
+      0 32px 56px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.reg-bubble-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(0, 255, 136, 0.07);
+  border-bottom: 2px solid rgba(0, 255, 136, 0.2);
+}
+
+.reg-bubble-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--success);
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+.reg-bubble-close {
+  background: none;
+  border: none;
+  color: rgba(200, 210, 255, 0.7);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: color 0.2s ease, background 0.2s ease;
+  line-height: 1;
+}
+
+.reg-bubble-close:hover {
+  color: #ff3366;
+  background: rgba(255, 51, 102, 0.12);
+}
+
+.reg-bubble-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.bubble-input,
+.bubble-select {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 7px;
+  border: 2px solid rgba(0, 217, 255, 0.4);
+  background: rgba(15, 20, 50, 0.88);
+  color: #ffffff;
+  font-family: "Space Mono", monospace;
+  font-size: 0.88rem;
+  transition: all 0.25s ease;
+}
+
+.bubble-input::placeholder {
+  color: rgba(200, 210, 255, 0.7);
+}
+
+.bubble-input:focus,
+.bubble-select:focus {
+  outline: none;
+  border-color: #00d9ff;
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.5);
+  background: rgba(20, 28, 65, 1);
+}
+
+.bubble-select option {
+  background: #0a0e27;
+  color: #ffffff;
+}
+
+.bubble-submit-btn {
+  margin-top: 4px;
+  padding: 12px;
+  border-radius: 7px;
+  border: 2px solid var(--success);
+  background: rgba(0, 255, 136, 0.12);
+  color: var(--success);
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.bubble-submit-btn:hover {
+  background: rgba(0, 255, 136, 0.22);
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.5);
+  transform: translateY(-2px);
+}
+
+.bubble-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.bubble-status {
+  margin: 0 20px 16px 20px;
+  min-height: 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--success);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.bubble-status[data-kind="error"] {
+  color: #ff3366;
+}
+
+@media (max-width: 768px) {
+  .reg-bubble-btn {
+    top: 56px;
+    right: 10px;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+  }
+
+  .reg-bubble-panel {
+    top: 100px;
+    right: 10px;
+  }
+}

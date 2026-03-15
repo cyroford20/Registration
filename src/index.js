@@ -540,3 +540,84 @@ events.addListener("spinEnd", async (sector) => {
   activeSpinUser = null;
   await refreshQueueAndHistory();
 });
+
+// ── Registration Floating Bubble ──
+const regBubbleBtn = document.querySelector("#regBubbleBtn");
+const regBubblePanel = document.querySelector("#regBubblePanel");
+const regBubbleClose = document.querySelector("#regBubbleClose");
+const bubbleNameInput = document.querySelector("#bubbleName");
+const bubbleEmailInput = document.querySelector("#bubbleEmail");
+const bubbleCollegeInput = document.querySelector("#bubbleCollege");
+const bubbleGenderSelect = document.querySelector("#bubbleGender");
+const bubbleCampusSelect = document.querySelector("#bubbleCampus");
+const bubbleRoleSelect = document.querySelector("#bubbleRole");
+const bubbleSubmitBtn = document.querySelector("#bubbleSubmit");
+const bubbleStatusEl = document.querySelector("#bubbleStatus");
+
+function setBubbleStatus(msg, kind = "") {
+  if (!bubbleStatusEl) return;
+  bubbleStatusEl.textContent = msg;
+  bubbleStatusEl.dataset.kind = kind;
+  bubbleStatusEl.style.opacity = msg ? "1" : "0";
+}
+
+if (regBubbleBtn && regBubblePanel) {
+  regBubbleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    regBubblePanel.classList.toggle("hidden");
+  });
+
+  regBubbleClose?.addEventListener("click", () => {
+    regBubblePanel.classList.add("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!regBubblePanel.classList.contains("hidden") &&
+      !regBubblePanel.contains(e.target) &&
+      e.target !== regBubbleBtn) {
+      regBubblePanel.classList.add("hidden");
+    }
+  });
+}
+
+bubbleSubmitBtn?.addEventListener("click", async () => {
+  const fullname = bubbleNameInput?.value.trim() ?? "";
+  const email = bubbleEmailInput?.value.trim() ?? "";
+  const college = bubbleCollegeInput?.value.trim() ?? "";
+  const gender = bubbleGenderSelect?.value ?? "";
+  const campus = bubbleCampusSelect?.value ?? "";
+  const role = bubbleRoleSelect?.value ?? "";
+
+  if (!fullname || !email || !college || !gender || !campus || !role) {
+    setBubbleStatus("Please fill in all fields", "error");
+    return;
+  }
+
+  bubbleSubmitBtn.disabled = true;
+  setBubbleStatus("Registering…");
+
+  try {
+    const res = await fetch("api/users.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullname, email, college, gender, campus, role }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || "Registration failed");
+
+    setBubbleStatus("Registered: " + fullname, "success");
+    bubbleNameInput.value = "";
+    bubbleEmailInput.value = "";
+    bubbleCollegeInput.value = "";
+    bubbleGenderSelect.value = "";
+    bubbleCampusSelect.value = "";
+    bubbleRoleSelect.value = "";
+    await refreshQueueAndHistory();
+    setTimeout(() => setBubbleStatus(""), 3000);
+  } catch (e) {
+    setBubbleStatus(e.message, "error");
+  } finally {
+    bubbleSubmitBtn.disabled = false;
+  }
+});

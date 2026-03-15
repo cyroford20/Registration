@@ -28,18 +28,6 @@ if (!ensureAdminAccess()) {
   throw new Error("Unauthorized admin access");
 }
 
-// Register bubble toggle
-const registerBubbleToggle = document.querySelector("#registerBubbleToggle");
-const registerBubbleBody = document.querySelector("#registerBubbleBody");
-const bubbleChevron = document.querySelector("#bubbleChevron");
-
-if (registerBubbleToggle && registerBubbleBody) {
-  registerBubbleToggle.addEventListener("click", () => {
-    const isCollapsed = registerBubbleBody.classList.toggle("collapsed");
-    if (bubbleChevron) bubbleChevron.textContent = isCollapsed ? "▼" : "▲";
-  });
-}
-
 const usersRowsEl = document.querySelector("#usersRows");
 const regStatusEl = document.querySelector("#regStatus");
 const userFullnameInput = document.querySelector("#userFullname");
