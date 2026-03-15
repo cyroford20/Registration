@@ -315,70 +315,83 @@ async function exportUsersToPdf() {
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
-    const left = 40;
-    const top = 40;
-    const lineHeight = 18;
-    const col = {
-      fullname: 40,
-      email: 170,
-      campus: 370,
-      role: 470,
-      prize: 560,
-      spin: 680,
-    };
+    const left = 26;
+    const right = 26;
+    const generatedAt = new Date();
+    const fileDate = generatedAt.toISOString().slice(0, 10);
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-    const date = new Date().toISOString().slice(0, 10);
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text(`Registered Users - ${date}`, left, top);
-
-    let y = top + 28;
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.text("Full Name", col.fullname, y);
-    doc.text("Email", col.email, y);
-    doc.text("Campus", col.campus, y);
-    doc.text("Role", col.role, y);
-    doc.text("Prize", col.prize, y);
-    doc.text("Spin", col.spin, y);
-
-    y += 8;
-    doc.setLineWidth(0.6);
-    doc.line(left, y, 800, y);
-    y += 14;
+    doc.setFontSize(20);
+    doc.setTextColor(23, 63, 102);
+    doc.text("Cyber Spin Wheel - Registered Users", left, 38);
 
     doc.setFont("helvetica", "normal");
-    usersList.forEach((u, idx) => {
-      if (y > 560) {
-        doc.addPage();
-        y = top + 20;
-      }
+    doc.setFontSize(11);
+    doc.setTextColor(88, 102, 120);
+    doc.text(`Generated: ${generatedAt.toLocaleString()}`, left, 58);
+    doc.text(`Total users: ${usersList.length}`, left, 76);
 
-      const row = {
-        fullname: String(u.fullname || "").slice(0, 22),
-        email: String(u.email || "").slice(0, 32),
-        campus: String(u.campus || "-").slice(0, 12),
-        role: String(u.role || "-").slice(0, 14),
-        prize: String(u.prizeGet || "-").slice(0, 16),
-        spin: String(u.spin || "-").slice(0, 6),
-      };
+    doc.setDrawColor(225, 231, 236);
+    doc.setLineWidth(1);
+    doc.line(left, 88, pageWidth - right, 88);
 
-      doc.text(row.fullname, col.fullname, y);
-      doc.text(row.email, col.email, y);
-      doc.text(row.campus, col.campus, y);
-      doc.text(row.role, col.role, y);
-      doc.text(row.prize, col.prize, y);
-      doc.text(row.spin, col.spin, y);
+    const tableBody = usersList.map((u) => [
+      u.fullname || "",
+      u.email || "",
+      u.gender || "",
+      u.college || "",
+      u.campus || "",
+      u.role || "",
+      u.spin || "",
+      u.prizeGet || "",
+      u.registered_at ? new Date(u.registered_at).toLocaleString() : "",
+    ]);
 
-      if (idx % 2 === 0) {
-        doc.setLineWidth(0.2);
-        doc.line(left, y + 4, 800, y + 4);
-      }
+    if (typeof doc.autoTable !== "function") {
+      throw new Error("PDF table plugin failed to load");
+    }
 
-      y += lineHeight;
+    doc.autoTable({
+      startY: 118,
+      margin: { left, right },
+      head: [["Full Name", "Email", "Gender", "College", "Campus", "Role", "Spin", "Prize", "Registered At"]],
+      body: tableBody,
+      theme: "grid",
+      headStyles: {
+        fillColor: [20, 58, 97],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+        halign: "left",
+      },
+      bodyStyles: {
+        textColor: [80, 80, 80],
+        fillColor: [250, 250, 250],
+      },
+      alternateRowStyles: {
+        fillColor: [242, 242, 242],
+      },
+      styles: {
+        font: "helvetica",
+        fontSize: 9,
+        cellPadding: 6,
+        lineColor: [225, 231, 236],
+        lineWidth: 0.4,
+      },
+      columnStyles: {
+        0: { cellWidth: 90 },
+        1: { cellWidth: 110 },
+        2: { cellWidth: 58 },
+        3: { cellWidth: 62 },
+        4: { cellWidth: 60 },
+        5: { cellWidth: 58 },
+        6: { cellWidth: 44 },
+        7: { cellWidth: 140 },
+        8: { cellWidth: 110 },
+      },
     });
 
-    doc.save(`registered-users-${date}.pdf`);
+    doc.save(`registered-users-${fileDate}.pdf`);
     setStatus("PDF export ready", "success");
     setTimeout(() => setStatus(""), 3000);
   } catch (e) {
