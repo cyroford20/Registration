@@ -2,6 +2,9 @@ const rowsEl = document.querySelector("#rows");
 const statusEl = document.querySelector("#status");
 const addBtn = document.querySelector("#add");
 const saveBtn = document.querySelector("#save");
+const openQrRegisterBtn = document.querySelector("#openQrRegister");
+const exportUsersExcelBtn = document.querySelector("#exportUsersExcel");
+const exportUsersPdfBtn = document.querySelector("#exportUsersPdf");
 
 const ADMIN_PASSWORD = "admin123";
 const ADMIN_SESSION_KEY = "adminAuthenticated";
@@ -37,7 +40,6 @@ const userGenderSelect = document.querySelector("#userGender");
 const userCampusSelect = document.querySelector("#userCampus");
 const userRoleSelect = document.querySelector("#userRole");
 const registerBtn = document.querySelector("#registerBtn");
-const exportUsersExcelBtn = document.querySelector("#exportUsersExcel");
 
 let sectors = [];
 let users = [];
@@ -238,17 +240,11 @@ function buildUsersCsv(usersList) {
 
 async function exportUsersToExcel() {
   try {
-    setRegStatus("Preparing Excel export...");
-    const res = await fetch("api/users.php", { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error("Failed to load users");
-    }
-
-    const data = await res.json();
-    const usersList = Array.isArray(data.users) ? data.users : [];
+    setStatus("Preparing Excel export...");
+    const usersList = await fetchUsersForExport();
 
     if (!usersList.length) {
-      setRegStatus("No users to export", "error");
+      setStatus("No users to export", "error");
       return;
     }
 
@@ -286,10 +282,107 @@ async function exportUsersToExcel() {
       URL.revokeObjectURL(url);
     }
 
-    setRegStatus("Excel export ready", "success");
-    setTimeout(() => setRegStatus(""), 3000);
+    setStatus("Excel export ready", "success");
+    setTimeout(() => setStatus(""), 3000);
   } catch (e) {
-    setRegStatus("Export failed: " + e.message, "error");
+    setStatus("Export failed: " + e.message, "error");
+  }
+}
+
+async function fetchUsersForExport() {
+  const res = await fetch("api/users.php", { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error("Failed to load users");
+  }
+
+  const data = await res.json();
+  return Array.isArray(data.users) ? data.users : [];
+}
+
+async function exportUsersToPdf() {
+  try {
+    setStatus("Preparing PDF export...");
+    const usersList = await fetchUsersForExport();
+
+    if (!usersList.length) {
+      setStatus("No users to export", "error");
+      return;
+    }
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      throw new Error("PDF library failed to load");
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    const left = 40;
+    const top = 40;
+    const lineHeight = 18;
+    const col = {
+      fullname: 40,
+      email: 170,
+      campus: 370,
+      role: 470,
+      prize: 560,
+      spin: 680,
+    };
+
+    const date = new Date().toISOString().slice(0, 10);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`Registered Users - ${date}`, left, top);
+
+    let y = top + 28;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("Full Name", col.fullname, y);
+    doc.text("Email", col.email, y);
+    doc.text("Campus", col.campus, y);
+    doc.text("Role", col.role, y);
+    doc.text("Prize", col.prize, y);
+    doc.text("Spin", col.spin, y);
+
+    y += 8;
+    doc.setLineWidth(0.6);
+    doc.line(left, y, 800, y);
+    y += 14;
+
+    doc.setFont("helvetica", "normal");
+    usersList.forEach((u, idx) => {
+      if (y > 560) {
+        doc.addPage();
+        y = top + 20;
+      }
+
+      const row = {
+        fullname: String(u.fullname || "").slice(0, 22),
+        email: String(u.email || "").slice(0, 32),
+        campus: String(u.campus || "-").slice(0, 12),
+        role: String(u.role || "-").slice(0, 14),
+        prize: String(u.prizeGet || "-").slice(0, 16),
+        spin: String(u.spin || "-").slice(0, 6),
+      };
+
+      doc.text(row.fullname, col.fullname, y);
+      doc.text(row.email, col.email, y);
+      doc.text(row.campus, col.campus, y);
+      doc.text(row.role, col.role, y);
+      doc.text(row.prize, col.prize, y);
+      doc.text(row.spin, col.spin, y);
+
+      if (idx % 2 === 0) {
+        doc.setLineWidth(0.2);
+        doc.line(left, y + 4, 800, y + 4);
+      }
+
+      y += lineHeight;
+    });
+
+    doc.save(`registered-users-${date}.pdf`);
+    setStatus("PDF export ready", "success");
+    setTimeout(() => setStatus(""), 3000);
+  } catch (e) {
+    setStatus("Export failed: " + e.message, "error");
   }
 }
 
@@ -445,6 +538,14 @@ registerBtn?.addEventListener("click", () => {
 
 exportUsersExcelBtn?.addEventListener("click", () => {
   exportUsersToExcel();
+});
+
+exportUsersPdfBtn?.addEventListener("click", () => {
+  exportUsersToPdf();
+});
+
+openQrRegisterBtn?.addEventListener("click", () => {
+  window.open("/qr-register.html", "_blank", "noopener,noreferrer");
 });
 
 userFullnameInput?.addEventListener("keypress", (e) => {
