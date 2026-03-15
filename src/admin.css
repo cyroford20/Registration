@@ -458,20 +458,88 @@ button:active {
   transform: scale(0.95);
 }
 
-/* User Registration Section */
-.user-registration-section {
-  margin-bottom: 50px;
-  padding-bottom: 40px;
-  border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+/* Floating Register Bubble */
+.register-bubble {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 255, 136, 0.55);
+  background: rgba(10, 20, 45, 0.94);
+  box-shadow:
+    0 8px 32px rgba(0, 255, 136, 0.2),
+    0 0 60px rgba(0, 255, 136, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 30px rgba(0, 255, 136, 0.04);
+  animation: bubble-float 4s ease-in-out infinite;
+  overflow: hidden;
 }
 
-.user-registration-section h2 {
+@keyframes bubble-float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+    box-shadow:
+      0 8px 32px rgba(0, 255, 136, 0.2),
+      0 0 60px rgba(0, 255, 136, 0.08),
+      0 20px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  50% {
+    transform: translateY(-6px);
+    box-shadow:
+      0 14px 42px rgba(0, 255, 136, 0.32),
+      0 0 80px rgba(0, 255, 136, 0.14),
+      0 30px 50px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.register-bubble-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  cursor: pointer;
+  background: rgba(0, 255, 136, 0.06);
+  border-bottom: 2px solid rgba(0, 255, 136, 0.2);
+  user-select: none;
+  transition: background 0.25s ease;
+}
+
+.register-bubble-header:hover {
+  background: rgba(0, 255, 136, 0.12);
+}
+
+.register-bubble-header h2 {
   font-family: "Orbitron", sans-serif;
-  font-size: 1.8rem;
-  color: var(--primary-color);
-  margin: 20px 0 10px 0;
-  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
-  letter-spacing: 2px;
+  font-size: 1.5rem;
+  color: var(--success);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.55);
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.bubble-chevron {
+  font-size: 1.1rem;
+  color: var(--success);
+  transition: transform 0.3s ease;
+}
+
+.register-bubble-body {
+  padding: 28px;
+  max-height: 700px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.4s ease, opacity 0.35s ease, padding 0.4s ease;
+}
+
+.register-bubble-body.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .registration-form {
@@ -578,7 +646,7 @@ button:active {
 }
 
 .wheel-config-section {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .wheel-config-section h2 {

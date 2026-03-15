@@ -2,11 +2,6 @@ const rowsEl = document.querySelector("#rows");
 const statusEl = document.querySelector("#status");
 const addBtn = document.querySelector("#add");
 const saveBtn = document.querySelector("#save");
-const userPanelEl = document.querySelector("#userPanel");
-const sectorPanelEl = document.querySelector("#sectorPanel");
-const showUserPanelBtn = document.querySelector("#showUserPanel");
-const showSectorPanelBtn = document.querySelector("#showSectorPanel");
-const showAllPanelsBtn = document.querySelector("#showAllPanels");
 
 const ADMIN_PASSWORD = "admin123";
 const ADMIN_SESSION_KEY = "adminAuthenticated";
@@ -33,40 +28,17 @@ if (!ensureAdminAccess()) {
   throw new Error("Unauthorized admin access");
 }
 
-function setActivePanelButton(activeBtn) {
-  [showUserPanelBtn, showSectorPanelBtn, showAllPanelsBtn].forEach((btn) => {
-    if (!btn) return;
-    btn.classList.toggle("active", btn === activeBtn);
+// Register bubble toggle
+const registerBubbleToggle = document.querySelector("#registerBubbleToggle");
+const registerBubbleBody = document.querySelector("#registerBubbleBody");
+const bubbleChevron = document.querySelector("#bubbleChevron");
+
+if (registerBubbleToggle && registerBubbleBody) {
+  registerBubbleToggle.addEventListener("click", () => {
+    const isCollapsed = registerBubbleBody.classList.toggle("collapsed");
+    if (bubbleChevron) bubbleChevron.textContent = isCollapsed ? "▼" : "▲";
   });
 }
-
-function showPanel(mode) {
-  if (!userPanelEl || !sectorPanelEl) return;
-
-  if (mode === "user") {
-    userPanelEl.classList.remove("hidden-panel");
-    sectorPanelEl.classList.add("hidden-panel");
-    setActivePanelButton(showUserPanelBtn);
-    return;
-  }
-
-  if (mode === "sector") {
-    userPanelEl.classList.add("hidden-panel");
-    sectorPanelEl.classList.remove("hidden-panel");
-    setActivePanelButton(showSectorPanelBtn);
-    return;
-  }
-
-  userPanelEl.classList.remove("hidden-panel");
-  sectorPanelEl.classList.remove("hidden-panel");
-  setActivePanelButton(showAllPanelsBtn);
-}
-
-showUserPanelBtn?.addEventListener("click", () => showPanel("user"));
-showSectorPanelBtn?.addEventListener("click", () => showPanel("sector"));
-showAllPanelsBtn?.addEventListener("click", () => showPanel("all"));
-
-showPanel("user");
 
 const usersRowsEl = document.querySelector("#usersRows");
 const regStatusEl = document.querySelector("#regStatus");
