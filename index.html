@@ -60,39 +60,43 @@
     <a class="admin-link" href="admin.html">⚙️ Admin</a>
   </header>
 
-  <!-- Registration Button + Floating Bubble (fixed, outside header) -->
+  <!-- Registration Button (fixed top-right, below Admin) -->
   <button class="reg-bubble-btn" id="regBubbleBtn" type="button">📋 Registration</button>
-  <div id="regBubblePanel" class="reg-bubble-panel hidden">
-    <div class="reg-bubble-top">
-      <span class="reg-bubble-title">👥 REGISTRATION</span>
-      <button class="reg-bubble-close" id="regBubbleClose" type="button" aria-label="Close">✕</button>
+
+  <!-- Registration Popup Modal -->
+  <div id="regOverlay" class="reg-overlay hidden">
+    <div id="regBubblePanel" class="reg-popup-panel">
+      <div class="reg-popup-header">
+        <span class="reg-popup-title">👥 REGISTRATION</span>
+        <button class="reg-bubble-close" id="regBubbleClose" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="reg-bubble-form">
+        <input type="text" id="bubbleName" placeholder="Full Name" class="bubble-input" autocomplete="name" />
+        <input type="email" id="bubbleEmail" placeholder="Email Address" class="bubble-input" autocomplete="email" />
+        <input type="text" id="bubbleCollege" placeholder="College" class="bubble-input" />
+        <select id="bubbleGender" class="bubble-select" title="Gender" aria-label="Gender">
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Others">Others</option>
+        </select>
+        <select id="bubbleCampus" class="bubble-select" title="Campus" aria-label="Campus">
+          <option value="">Select Campus</option>
+          <option value="MCC">MCC</option>
+          <option value="MMC">MMC</option>
+          <option value="MBC">MBC</option>
+        </select>
+        <select id="bubbleRole" class="bubble-select" title="Role" aria-label="Role">
+          <option value="">Select Role</option>
+          <option value="Student">Student</option>
+          <option value="Faculty">Faculty</option>
+          <option value="Non-Teaching">Non-Teaching</option>
+          <option value="Others">Others</option>
+        </select>
+        <button id="bubbleSubmit" class="bubble-submit-btn" type="button">Register User</button>
+      </div>
+      <div id="bubbleStatus" class="bubble-status"></div>
     </div>
-    <div class="reg-bubble-form">
-      <input type="text" id="bubbleName" placeholder="Full Name" class="bubble-input" autocomplete="name" />
-      <input type="email" id="bubbleEmail" placeholder="Email Address" class="bubble-input" autocomplete="email" />
-      <input type="text" id="bubbleCollege" placeholder="College" class="bubble-input" />
-      <select id="bubbleGender" class="bubble-select" title="Gender" aria-label="Gender">
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Others">Others</option>
-      </select>
-      <select id="bubbleCampus" class="bubble-select" title="Campus" aria-label="Campus">
-        <option value="">Select Campus</option>
-        <option value="MCC">MCC</option>
-        <option value="MMC">MMC</option>
-        <option value="MBC">MBC</option>
-      </select>
-      <select id="bubbleRole" class="bubble-select" title="Role" aria-label="Role">
-        <option value="">Select Role</option>
-        <option value="Student">Student</option>
-        <option value="Faculty">Faculty</option>
-        <option value="Non-Teaching">Non-Teaching</option>
-        <option value="Others">Others</option>
-      </select>
-      <button id="bubbleSubmit" class="bubble-submit-btn" type="button">Register User</button>
-    </div>
-    <div id="bubbleStatus" class="bubble-status"></div>
   </div>
 
   <main class="main-content">

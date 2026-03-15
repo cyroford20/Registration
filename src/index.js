@@ -541,9 +541,9 @@ events.addListener("spinEnd", async (sector) => {
   await refreshQueueAndHistory();
 });
 
-// ── Registration Floating Bubble ──
+// ── Registration Popup Modal ──
 const regBubbleBtn = document.querySelector("#regBubbleBtn");
-const regBubblePanel = document.querySelector("#regBubblePanel");
+const regOverlay = document.querySelector("#regOverlay");
 const regBubbleClose = document.querySelector("#regBubbleClose");
 const bubbleNameInput = document.querySelector("#bubbleName");
 const bubbleEmailInput = document.querySelector("#bubbleEmail");
@@ -561,24 +561,21 @@ function setBubbleStatus(msg, kind = "") {
   bubbleStatusEl.style.opacity = msg ? "1" : "0";
 }
 
-if (regBubbleBtn && regBubblePanel) {
-  regBubbleBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    regBubblePanel.classList.toggle("hidden");
-  });
-
-  regBubbleClose?.addEventListener("click", () => {
-    regBubblePanel.classList.add("hidden");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!regBubblePanel.classList.contains("hidden") &&
-      !regBubblePanel.contains(e.target) &&
-      e.target !== regBubbleBtn) {
-      regBubblePanel.classList.add("hidden");
-    }
-  });
+function openRegPopup() {
+  regOverlay?.classList.remove("hidden");
 }
+
+function closeRegPopup() {
+  regOverlay?.classList.add("hidden");
+}
+
+regBubbleBtn?.addEventListener("click", openRegPopup);
+regBubbleClose?.addEventListener("click", closeRegPopup);
+
+// Close when clicking the overlay backdrop (outside the panel)
+regOverlay?.addEventListener("click", (e) => {
+  if (e.target === regOverlay) closeRegPopup();
+});
 
 bubbleSubmitBtn?.addEventListener("click", async () => {
   const fullname = bubbleNameInput?.value.trim() ?? "";

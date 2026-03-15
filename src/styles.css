@@ -713,38 +713,41 @@ footer {
   transform: scale(1.05);
 }
 
-/* ── Registration Floating Panel ── */
-.reg-bubble-panel {
+/* ── Registration Overlay + Popup Panel ── */
+.reg-overlay {
   position: fixed;
-  top: 110px;
-  right: 20px;
-  width: min(430px, 92vw);
-  z-index: 200;
-  background: rgba(8, 14, 40, 0.97);
-  border: 2px solid rgba(0, 255, 136, 0.6);
-  border-radius: 14px;
-  box-shadow:
-    0 8px 32px rgba(0, 255, 136, 0.25),
-    0 0 60px rgba(0, 255, 136, 0.1),
-    0 24px 48px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  transform-origin: top right;
-  animation: reg-float 4s ease-in-out infinite;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 28, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 20px;
 }
 
-.reg-bubble-panel.hidden {
+.reg-overlay.hidden {
   display: none;
 }
 
-.reg-bubble-panel:not(.hidden) {
-  animation: bubble-pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-    reg-float 4s ease-in-out 0.25s infinite;
+.reg-popup-panel {
+  width: min(480px, 100%);
+  background: rgba(8, 14, 40, 0.98);
+  border: 2px solid rgba(0, 255, 136, 0.6);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 136, 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    0 0 80px rgba(0, 255, 136, 0.12);
+  overflow: hidden;
+  animation: popup-in 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes bubble-pop-in {
+@keyframes popup-in {
   from {
     opacity: 0;
-    transform: scale(0.85) translateY(-10px);
+    transform: scale(0.88) translateY(20px);
   }
 
   to {
@@ -753,50 +756,31 @@ footer {
   }
 }
 
-@keyframes reg-float {
-
-  0%,
-  100% {
-    box-shadow:
-      0 8px 32px rgba(0, 255, 136, 0.25),
-      0 0 60px rgba(0, 255, 136, 0.1),
-      0 24px 48px rgba(0, 0, 0, 0.5);
-  }
-
-  50% {
-    transform: translateY(-5px);
-    box-shadow:
-      0 14px 42px rgba(0, 255, 136, 0.38),
-      0 0 80px rgba(0, 255, 136, 0.18),
-      0 32px 56px rgba(0, 0, 0, 0.4);
-  }
-}
-
-.reg-bubble-top {
+.reg-popup-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 18px 24px;
   background: rgba(0, 255, 136, 0.07);
   border-bottom: 2px solid rgba(0, 255, 136, 0.2);
 }
 
-.reg-bubble-title {
+.reg-popup-title {
   font-family: "Orbitron", sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--success);
   letter-spacing: 2px;
-  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
 }
 
 .reg-bubble-close {
   background: none;
   border: none;
   color: rgba(200, 210, 255, 0.7);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 4px;
   transition: color 0.2s ease, background 0.2s ease;
   line-height: 1;
@@ -894,10 +878,5 @@ footer {
     right: 10px;
     padding: 6px 10px;
     font-size: 0.7rem;
-  }
-
-  .reg-bubble-panel {
-    top: 96px;
-    right: 10px;
   }
 }
