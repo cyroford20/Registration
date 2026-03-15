@@ -439,7 +439,7 @@ saveBtn.addEventListener("click", () => {
   save().catch((e) => setStatus(e.message || String(e)));
 });
 
-registerBtn.addEventListener("click", () => {
+registerBtn?.addEventListener("click", () => {
   registerUser();
 });
 
@@ -447,11 +447,11 @@ exportUsersExcelBtn?.addEventListener("click", () => {
   exportUsersToExcel();
 });
 
-userFullnameInput.addEventListener("keypress", (e) => {
+userFullnameInput?.addEventListener("keypress", (e) => {
   if (e.key === "Enter") registerUser();
 });
 
-userEmailInput.addEventListener("keypress", (e) => {
+userEmailInput?.addEventListener("keypress", (e) => {
   if (e.key === "Enter") registerUser();
 });
 
