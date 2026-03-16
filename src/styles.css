@@ -438,18 +438,17 @@ header {
   backdrop-filter: blur(4px);
 }
 
-.dev-ticker-track {
+.dev-marquee {
   display: flex;
   width: max-content;
   min-width: 100%;
-  transform: translateX(-25%);
-  animation: ticker-scroll 22s linear infinite;
+  animation: ticker-roll 22s linear infinite;
 }
 
-.dev-ticker-track span {
+.dev-marquee span {
   flex-shrink: 0;
-  padding: 10px 0;
   min-width: 100%;
+  padding: 10px 0;
   font-family: "Orbitron", sans-serif;
   font-size: 0.78rem;
   letter-spacing: 1.8px;
@@ -459,13 +458,13 @@ header {
   white-space: nowrap;
 }
 
-@keyframes ticker-scroll {
+@keyframes ticker-roll {
   0% {
-    transform: translateX(-25%);
+    transform: translateX(0);
   }
 
   100% {
-    transform: translateX(25%);
+    transform: translateX(-50%);
   }
 }
 
