@@ -442,6 +442,7 @@ header {
   display: flex;
   width: max-content;
   min-width: 100%;
+  transform: translateX(-75%);
   animation: ticker-roll 22s linear infinite;
 }
 
@@ -460,11 +461,11 @@ header {
 
 @keyframes ticker-roll {
   0% {
-    transform: translateX(0);
+    transform: translateX(-75%);
   }
 
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-25%);
   }
 }
 
